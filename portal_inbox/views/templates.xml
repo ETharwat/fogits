@@ -1,0 +1,325 @@
+<odoo>
+    <template id="portal_my_home_incoming" name="Portal My Home : incoming"
+              inherit_id="portal.portal_my_home"
+              priority="0">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Incoming Messages</t>
+                <t t-set="url" t-value="'/my/incoming'"/>
+                <t t-set="count" t-value="message_count"/>
+            </t>
+        </xpath>
+    </template>
+    <template id="portal_incoming_messages" name="incoming">
+        <t t-call="portal.portal_layout">
+            <div class="o_portal container mt-3">
+                <nav class="navbar navbar-light navbar-expand-lg border py-0 mb-2 o_portal_navbar  border-top-0">
+                    <span class="navbar-brand mb-0 h1 mr-auto">Incoming Messages</span>
+                    <div class="collapse navbar-collapse" id="o_portal_navbar_content">
+                        <div class="nav flex-column flex-lg-row ml-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                        </div>
+                    </div>
+                </nav>
+                <t t-if="student">
+                    <div style="background-color:white; padding: 20px 40px 20px 40px;">
+                        <div class="mt16">
+                            <div class="panel-body">
+                                <table class="mt16 table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>State</th>
+                                            <th>Date</th>
+                                            <th>Subject</th>
+                                            <th>Teacher</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="inbox.sorted(key=lambda x: x.read_by_student)" t-as="message">
+
+                                            <tr>
+                                                <td>
+                                                    <img style="height:20px" src="/portal_inbox/static/src/img/new.svg"
+                                                         t-if="message.read_by_student != True"/>
+                                                    <!--<span style="background-color:#245b55;" t-if="message.read_by_student != True">NEW</span>-->
+                                                </td>
+                                                <td>
+                                                    <span t-field="message.sent_date"/>
+                                                </td>
+                                                <td>
+                                                    <a t-att-href="'incoming/%s'%message.id">
+                                                        <span t-field="message.name"/>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <span t-field="message.create_uid.name"/>
+                                                </td>
+
+
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+                <t t-else="">
+                    <p style="margin-left:300px;font-size:50px">Your Inbox is Empty</p>
+
+                </t>
+            </div>
+        </t>
+    </template>
+    <template id="portal_incoming_details" name="Message Details">
+        <t t-call="portal.portal_layout">
+            <div class="o_portal container mt-3">
+                <nav class="navbar navbar-light navbar-expand-lg border py-0 mb-2 o_portal_navbar  border-top-0">
+                    <span class="navbar-brand mb-0 h1 mr-auto">Message Details</span>
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#o_portal_navbar_content" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle filters">
+                        <span class="navbar-toggler-icon small"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="o_portal_navbar_content">
+                        <div class="nav flex-column flex-lg-row ml-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                        </div>
+
+                    </div>
+                </nav>
+                <div style="background-color:white; padding: 2px 40px 20px 40px;">
+                    <div class="mt32">
+                        <div class="row col-md-12">
+                            <strong>
+                                <span style="font-size:24px;" t-field="message.name"/>
+                            </strong>
+                        </div>
+                        <div class="mt16"></div>
+                        <div class="row col-md-12">
+                            <div class="row col-md-6">
+                                <div class="col-md-4">
+                                    <strong>Date:</strong>
+                                </div>
+                                <div class="col-md-8">
+                                    <span t-field="message.sent_date"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-md-12">
+                            <div class="row col-md-6">
+                                <div class="col-md-4">
+                                    <strong>Teacher:</strong>
+                                </div>
+                                <div class="col-md-8">
+                                    <span t-field="message.create_uid.name"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt32">
+                            <h4>Message</h4>
+                            <span t-field="message.message"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_my_home_outgoing" name="Portal My Home : Outgoing"
+              inherit_id="portal.portal_my_home"
+              priority="0">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Outgoing Messages</t>
+                <t t-set="url" t-value="'/my/outgoing'"/>
+            </t>
+        </xpath>
+    </template>
+    <template id="portal_outgoing_messages" name="Outgoing">
+        <t t-call="portal.portal_layout">
+            <div class="o_portal container mt-3">
+                <nav class="navbar navbar-light navbar-expand-lg border py-0 mb-2 o_portal_navbar  border-top-0">
+                    <span class="navbar-brand mb-0 h1 mr-auto">Outgoing Messages</span>
+                    <a class="btn btn-primary" href="/NewMessage" style="margin-left: 640px;">New Message</a>
+                    <div class="collapse navbar-collapse" id="o_portal_navbar_content">
+                        <div class="nav flex-column flex-lg-row ml-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                        </div>
+                    </div>
+                </nav>
+
+                <div style="background-color:white; padding: 20px 40px 20px 40px;">
+                    <div class="mt16">
+                        <div class="panel-body">
+                            <table class="mt16 table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Subject</th>
+                                        <th>Teacher</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="inbox.sorted(key=lambda x: x.create_date)" t-as="message">
+
+                                        <tr>
+                                            <td>
+                                                <span t-field="message.create_date"/>
+                                            </td>
+                                            <td>
+                                                <a t-att-href="'/my/outgoing/%s'%message.id">
+                                                    <span t-field="message.name"/>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <span t-field="message.teacher_id.name"/>
+                                            </td>
+
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="portal_new_outgoing_messages" name="New Message">
+        <t t-call="portal.portal_layout">
+            <div class="o_portal container mt-3">
+                <nav class="navbar navbar-light navbar-expand-lg border py-0 mb-2 o_portal_navbar  border-top-0">
+                    <span class="navbar-brand mb-0 h1 mr-auto">New Messages</span>
+                    <div class="collapse navbar-collapse" id="o_portal_navbar_content">
+                        <div class="nav flex-column flex-lg-row ml-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                        </div>
+                    </div>
+                </nav>
+                <div class="container mb64">
+                    <div style="background-color:white; padding: 20px 40px 20px 40px;">
+                        <div class="mt16">
+                            <form action="/MessageSent" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row col-md-12">
+                                            <div class="col-md-4">
+                                                <label class="col-form-label" for="Name">
+                                                    <strong>Subject:</strong>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="Text" name="subject"/>
+                                                <input type="hidden" name="stud_id" t-att-value="student.id"/>
+                                                <input type="hidden" name="name" class="form-control"
+                                                       t-att-value="student.name" readonly="1"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt8 col-md-12">
+                                            <div class="row  col-md-12">
+                                                <div class="col-md-4 mt8">
+                                                    <label for="teachers">Teacher:</label>
+                                                </div>
+                                                <div class=" col-md-8">
+                                                    <select name="teachers" class="form-control" required="1">
+                                                        <option value="">Select Teacher</option>
+                                                        <t t-foreach="teachers or []" t-as="teacher">
+                                                            <option t-att-value="teacher.id">
+                                                                <t t-esc="teacher.name"/>
+                                                            </option>
+                                                        </t>
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <label class="col-form-label" for="Description">
+                                                <strong>Message:</strong>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <textarea class="form-control o_website_form_input"
+                                                      name="message"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix mt16 mb16 row col-md-12">
+                                    <div class="col-md-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            SUBMIT
+                                            <span class="fa fa-long-arrow-right"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </t>
+    </template>
+    <template id="portal_outgoing_details" name="Message Details">
+        <t t-call="portal.portal_layout">
+            <div class="o_portal container mt-3">
+                <nav class="navbar navbar-light navbar-expand-lg border py-0 mb-2 o_portal_navbar  border-top-0">
+                    <span class="navbar-brand mb-0 h1 mr-auto">Message Details</span>
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#o_portal_navbar_content" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle filters">
+                        <span class="navbar-toggler-icon small"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="o_portal_navbar_content">
+                        <div class="nav flex-column flex-lg-row ml-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
+                        </div>
+
+                    </div>
+                </nav>
+                <div style="background-color:white; padding: 2px 40px 20px 40px;">
+                    <div class="mt32">
+                        <div class="row col-md-12">
+                            <strong>
+                                <span style="font-size:24px;" t-field="message.name"/>
+                            </strong>
+                        </div>
+                        <div class="mt16"></div>
+                        <div class="row col-md-12">
+                            <div class="row col-md-6">
+                                <div class="col-md-4">
+                                    <strong>Date:</strong>
+                                </div>
+                                <div class="col-md-8">
+                                    <span t-field="message.create_date"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-md-12">
+                            <div class="row col-md-6">
+                                <div class="col-md-4">
+                                    <strong>Teacher:</strong>
+                                </div>
+                                <div class="col-md-8">
+                                    <span t-field="message.teacher_id.name"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt32">
+                            <h4>Message</h4>
+                            <span t-field="message.message"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

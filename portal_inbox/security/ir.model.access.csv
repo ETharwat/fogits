@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_portal_sent,portal.sent,model_portal_sent,base.group_user,1,1,1,1
+access_portal_sent_portaluser,portal.sent,model_portal_sent,base.group_portal,1,1,1,1
+access_portal_inbox,portal.inbox,model_portal_inbox,base.group_portal,1,1,1,1
+access_portal_inboxuser,portal.inbox,model_portal_inbox,base.group_user,1,1,1,1

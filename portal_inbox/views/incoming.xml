@@ -1,0 +1,62 @@
+<odoo>
+    <data>
+        <record id="portal_incoming_view_tree" model="ir.ui.view">
+            <field name="name">Incoming Messages</field>
+            <field name="model">portal.inbox</field>
+            <field name="arch" type="xml">
+                <tree string="Inbox" create="false" edit="false">
+                    <field name="create_date" string="Date"/>
+                    <field name="student_id"/>
+                    <field name="teacher_id" />
+                    <field name="name"/>
+                    <field name="message"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="portal_incoming_action" model="ir.actions.act_window">
+            <field name="name">Incoming Messages</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">portal.inbox</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="portal_incoming_view_tree"/>
+        </record>
+
+        <record id="portal_incoming_view_form" model="ir.ui.view">
+            <field name="name">Incoming Messages</field>
+            <field name="model">portal.inbox</field>
+            <field name="arch" type="xml">
+                <form string="Inbox">
+                    <sheet>
+                        <div class="oe_title" id="title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="create_date" string="Date"/>
+                                <field name="student_id"/>
+                                <field name="teacher_id" invisible="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="message"/>
+
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <menuitem
+                sequence="1"
+                id="menu_incoming"
+                name="Incoming Messages"
+                parent="menu_inbox"
+                action="portal_incoming_action"
+                groups="base.group_user"
+        />
+    </data>
+</odoo>
